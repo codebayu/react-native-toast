@@ -1,15 +1,15 @@
 {
-  "name": "@codebayu/style-variants",
-  "version": "1.0.1",
+  "name": "@codebayu/react-native-toast",
+  "version": "1.0.0",
   "description": "The Package for creating dynamic and reusable styles in React Native App",
-  "masin": "dist/index.js",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codebayu/style-variants.git"
+    "url": "git+https://github.com/codebayu/react-native-toast.git"
   },
   "keywords": [
     "react-native",
@@ -20,18 +20,17 @@
   "author": "bayu setiawan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/codebayu/style-variants/issues"
+    "url": "https://github.com/codebayu/react-native-toast/issues"
   },
-  "homepage": "https://github.com/codebayu/style-varian#sreadme",
-  "devDependencies": {
-    "@types/react": "^18.2.40",
-    "@types/react-native": "^0.73.0",
-    "react": "^18.2.0",
-    "react-native": "^0.73.7",
-    "typescript": "^5.4.5"
-  },
+  "homepage": "https://github.com/codebayu/react-native-toast#sreadme",
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
+    "react": ">=18.3.1",
+    "react-native": ">=0.76.9",
+    "react-native-reanimated": ">=3.16.1"
+  },
+  "devDependencies": {
+    "@types/react": ">=18.3.12",
+    "@types/react-native": "^0.72.8",
+    "typescript": ">=5.7.2"
   }
 }

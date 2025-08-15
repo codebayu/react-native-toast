@@ -1,113 +1,78 @@
-# @codebayu/style-variants
+# @codebayu/react-native-toast
 
-The Package for creating dynamic and reusable styles in React Native App
+A lightweight and customizable toast notification component for React Native and Expo, with simple API hooks for programmatic control.
 
-## Installation
+## ✨ Features
+- 📌 Show toast notifications globally from anywhere in your app.
+- 🎨 Fully customizable colors & icons.
+- ⏱ Adjustable display duration and animation speed.
+- 🔄 Programmatic API with `useToast` hook.
+- 🪶 Lightweight & simple integration.
+
+## 📦 Installation
 
 ```bash
-# npm
-npm install @codebayu/style-variants
-
-# yarn
-yarn add @codebayu/style-variants
+npm install @codebayu/react-native-toast
+# or
+yarn add @codebayu/react-native-toast
 ```
 
-## Usage
+## 🚀 Usage
+```ts
+import React from 'react';
+import { Toaster } from '@codebayu/react-native-toast';
+import MainComponent from './MainComponent';
 
-```tsx
-// ReusableButton.tsx
-import { sv } from '@codebayu/style-variants';
-
-export default function ReusableButton({
-  children,
-  color,
-  size,
-  style,
-  ...rest
-}) {
-  const buttonStyle = buttonVariant({ color, size });
-  const textStyle = textVariant({ color, size });
+export default function App() {
   return (
-    <Pressable style={[buttonStyle, style]} {...rest}>
-      <Text style={textStyle}>{children}</Text>
-    </Pressable>
+    <>
+      <Toaster />
+      <MainComponent />
+    </>
   );
 }
-
-const textVariant = sv({
-  base: {
-    fontWeight: '600',
-  },
-  variants: {
-    color: {
-      primary: {
-        color: 'green',
-      },
-      secondary: {
-        color: 'blue',
-      },
-      ghost: {
-        color: 'black',
-      },
-    },
-    size: {
-      small: {
-        fontSize: 14,
-      },
-      medium: {
-        fontSize: 16,
-      },
-      large: {
-        fontSize: 18,
-      },
-    },
-  },
-  defaultVariants: {
-    color: 'primary',
-    size: 'medium',
-  },
-});
-
-const buttonVariant = sv({
-  base: {
-    height: 'auto',
-    alignItems: 'center',
-  },
-  variants: {
-    color: {
-      primary: {
-        backgroundColor: '#eee',
-        padding: 17,
-        fontWeight: '600',
-        borderRadius: 5,
-        width: '100%',
-        borderWidth: 1,
-        borderColor: '#eee',
-      },
-      secondary: {
-        backgroundColor: '#e3e3e3',
-        padding: 17,
-        fontWeight: '600',
-        borderRadius: 5,
-        width: '100%',
-        borderWidth: 1,
-        borderColor: '#eee',
-      },
-      ghost: {
-        backgroundColor: 'transparent',
-      },
-    },
-  },
-  defaultVariants: {
-    color: 'primary',
-  },
-});
-
-// Parent Component
-<ReusableButton color="ghost" size="small">
-  Sign Up Here
-</ReusableButton>;
 ```
+
+## 🎯 Programmatic Control
+
+You can show or hide toasts anywhere using the useToast hook.
+
+```ts
+import React from 'react';
+import { useToast } from '@codebayu/react-native-toast';
+import { Button } from 'react-native';
+
+export default function Example() {
+  const { showToast, hideToast } = useToast();
+
+  return (
+    <>
+      <Button
+        title="Show Success Toast"
+        onPress={() =>
+          showToast('Operation successful', 'success', { duration: 3000 })
+        }
+      />
+      <Button title="Hide Toast" onPress={() => hideToast()} />
+    </>
+  );
+}
+}
+```
+
+## 🛠 API (useToast)
+
+#### showToast(message, type?, options?)
+
+- message (string) – The text to display.
+- type (“warning” | “success” | “error”) – Defaults to "warning".
+- options.duration (number) – Override display duration.
+- options.animationDuration (number) – Override animation speed.
+
+#### hideToast(callback?)
+
+- callback (function) – Optional callback after toast is dismissed.
+
 
 ## License
 

@@ -1,0 +1,93 @@
+import { THROTTLE_DELAY } from './constant';
+import { ToastOptions, ToastRef, ToastType } from './types';
+
+// Toast Manager Singleton
+class ToastManagerSingleton {
+  private static instance: ToastManagerSingleton;
+  private toastRef: ToastRef | null = null;
+  // private listeners: Set<(ref: ToastRef) => void> = new Set();
+  private isAnimating = false;
+  private queue: {
+    message: string;
+    type: ToastType;
+    options?: ToastOptions;
+  }[] = [];
+  private lastToastTime = 0;
+
+  // Private constructor to prevent direct instantiation
+  private constructor() {
+    // Initialize singleton instance
+  }
+
+  /** Get the singleton instance of ToastManager. */
+  static getInstance(): ToastManagerSingleton {
+    if (!ToastManagerSingleton.instance) {
+      ToastManagerSingleton.instance = new ToastManagerSingleton();
+    }
+    return ToastManagerSingleton.instance;
+  }
+
+  setToastRef(ref: ToastRef | null) {
+    this.toastRef = ref;
+  }
+
+  setAnimating(isAnimating: boolean) {
+    this.isAnimating = isAnimating;
+  }
+
+  /** Process queued toast messages */
+  private processQueue() {
+    if (!this.isAnimating && this.queue.length > 0 && this.toastRef) {
+      const nextToast = this.queue.shift();
+      if (nextToast && nextToast.message && nextToast.message.trim() !== '') {
+        this.isAnimating = true;
+        this.lastToastTime = Date.now();
+        this.toastRef.show(
+          nextToast.message,
+          nextToast.type,
+          nextToast.options,
+        );
+      } else {
+        // Skip empty messages and process next item
+        this.processQueue();
+      }
+    }
+  }
+
+  /** Show a toast message. */
+  show(message: string, type: ToastType = 'warning', options?: ToastOptions) {
+    // Validasi pesan kosong
+    if (!message || message.trim() === '') {
+      return;
+    }
+
+    // Anti-spam check
+    const now = Date.now();
+    if (now - this.lastToastTime < THROTTLE_DELAY || this.isAnimating) {
+      return; // Skip jika masih dalam cooldown atau sedang animasi
+    }
+
+    // Update waktu toast terakhir
+    this.lastToastTime = now;
+
+    // Tampilkan toast
+    if (this.toastRef) {
+      this.isAnimating = true;
+      this.toastRef.show(message, type, options);
+    }
+  }
+
+  /** Hide the currently visible toast. */
+  hide(callback?: () => void) {
+    if (this.toastRef) {
+      this.toastRef.hide(() => {
+        this.isAnimating = false;
+        if (callback) callback();
+        this.processQueue();
+      });
+    }
+  }
+}
+
+/** Singleton instance to manage toasts globally. */
+export const ToastManager = ToastManagerSingleton.getInstance();
