@@ -2,13 +2,13 @@ import { Dimensions, Platform } from 'react-native';
 
 const ASSETS = {
   success: Platform.select({
-    default: require('@/asset/image/toast/success.png'),
+    default: require('./asset/success.png'),
   }),
   error: Platform.select({
-    default: require('@/asset/image/toast/error.png'),
+    default: require('./asset/error.png'),
   }),
   warning: Platform.select({
-    default: require('@/asset/image/toast/warning.png'),
+    default: require('./asset/warning.png'),
   }),
 };
 
